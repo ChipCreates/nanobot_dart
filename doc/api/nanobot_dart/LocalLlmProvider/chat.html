@@ -83,7 +83,35 @@ Future&lt;LlmResponse&gt; chat({
   List&lt;dynamic&gt;? tools,
   String? model,
 }) async {
-  throw UnimplementedError(&#39;LocalLlmProvider.chat not yet implemented&#39;);
+  final requestBody = &lt;String, dynamic&gt;{
+    &#39;model&#39;: model ?? this.model,
+    &#39;messages&#39;: messages,
+    &#39;stream&#39;: false,
+  };
+
+  &#47;&#47; Ollama 0.4+ supports tools in OpenAI format
+  if (tools != null &amp;&amp; tools.isNotEmpty) {
+    requestBody[&#39;tools&#39;] = tools;
+  }
+
+  try {
+    final response = await _httpClient.post(
+      Uri.parse(&#39;$baseUrl&#47;api&#47;chat&#39;),
+      headers: {&#39;Content-Type&#39;: &#39;application&#47;json&#39;},
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode != 200) {
+      return LlmResponse(
+        content: &#39;Error: ${response.statusCode} - ${response.body}&#39;,
+      );
+    }
+
+    final data = jsonDecode(response.body) as Map&lt;String, dynamic&gt;;
+    return _parseResponse(data);
+  } catch (e) {
+    return LlmResponse(content: &#39;Error calling Ollama: $e&#39;);
+  }
 }</code></pre>
 </section>
 

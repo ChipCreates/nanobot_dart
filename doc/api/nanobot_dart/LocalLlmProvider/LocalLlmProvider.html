@@ -54,7 +54,9 @@
 
     <section class="multi-line-signature">
       
-      <span class="name ">LocalLlmProvider</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="-param-modelPath"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">modelPath</span>, </span></li>
+      <span class="name ">LocalLlmProvider</span>(<wbr>{<ol class="parameter-list"> <li><span class="parameter" id="-param-model"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">model</span> = <span class="default-value">&#39;llama3.1&#39;</span>, </span></li>
+<li><span class="parameter" id="-param-baseUrl"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">baseUrl</span> = <span class="default-value">&#39;http:&#47;&#47;localhost:11434&#39;</span>, </span></li>
+<li><span class="parameter" id="-param-httpClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.6.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">httpClient</span>, </span></li>
 </ol>})
     </section>
     
@@ -63,7 +65,11 @@
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">LocalLlmProvider({required this.modelPath});</code></pre>
+  <pre class="language-dart"><code class="language-dart">LocalLlmProvider({
+  this.model = &#39;llama3.1&#39;,
+  this.baseUrl = &#39;http:&#47;&#47;localhost:11434&#39;,
+  http.Client? httpClient,
+}) : _httpClient = httpClient ?? http.Client();</code></pre>
 </section>
 
 

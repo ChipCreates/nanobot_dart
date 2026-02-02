@@ -142,12 +142,28 @@ final response = await agent.process(
   Anthropic LLM provider.
 </dd>
 
+          <dt id="BaseChannel">
+  <span class="name "><a href="../nanobot_dart/BaseChannel-class.html">BaseChannel</a></span> 
+
+</dt>
+<dd>
+  Abstract base class for chat channel implementations.
+</dd>
+
           <dt id="CancellationToken">
   <span class="name "><a href="../nanobot_dart/CancellationToken-class.html">CancellationToken</a></span> 
 
 </dt>
 <dd>
   Token for cancelling agent loop execution.
+</dd>
+
+          <dt id="ChannelManager">
+  <span class="name "><a href="../nanobot_dart/ChannelManager-class.html">ChannelManager</a></span> 
+
+</dt>
+<dd>
+  
 </dd>
 
           <dt id="ChannelsConfig">
@@ -174,6 +190,54 @@ final response = await agent.process(
   Builds context for LLM calls including system prompt, history, and memory.
 </dd>
 
+          <dt id="CronJob">
+  <span class="name "><a href="../nanobot_dart/CronJob-class.html">CronJob</a></span> 
+
+</dt>
+<dd>
+  A scheduled job.
+</dd>
+
+          <dt id="CronJobState">
+  <span class="name "><a href="../nanobot_dart/CronJobState-class.html">CronJobState</a></span> 
+
+</dt>
+<dd>
+  Runtime state of a job.
+</dd>
+
+          <dt id="CronPayload">
+  <span class="name "><a href="../nanobot_dart/CronPayload-class.html">CronPayload</a></span> 
+
+</dt>
+<dd>
+  What to do when the job runs.
+</dd>
+
+          <dt id="CronSchedule">
+  <span class="name "><a href="../nanobot_dart/CronSchedule-class.html">CronSchedule</a></span> 
+
+</dt>
+<dd>
+  Schedule definition for a cron job.
+</dd>
+
+          <dt id="CronService">
+  <span class="name "><a href="../nanobot_dart/CronService-class.html">CronService</a></span> 
+
+</dt>
+<dd>
+  Service for managing and executing scheduled jobs.
+</dd>
+
+          <dt id="CronStore">
+  <span class="name "><a href="../nanobot_dart/CronStore-class.html">CronStore</a></span> 
+
+</dt>
+<dd>
+  Persistent store for cron jobs.
+</dd>
+
           <dt id="FilesystemTool">
   <span class="name "><a href="../nanobot_dart/FilesystemTool-class.html">FilesystemTool</a></span> 
 
@@ -188,6 +252,14 @@ final response = await agent.process(
 </dt>
 <dd>
   Gateway/server configuration.
+</dd>
+
+          <dt id="HeartbeatService">
+  <span class="name "><a href="../nanobot_dart/HeartbeatService-class.html">HeartbeatService</a></span> 
+
+</dt>
+<dd>
+  Periodic heartbeat service that wakes the agent to check for tasks.
 </dd>
 
           <dt id="InboundMessage">
@@ -227,7 +299,7 @@ final response = await agent.process(
 
 </dt>
 <dd>
-  Local LLM provider using llama.cpp.
+  Local LLM provider using Ollama API.
 </dd>
 
           <dt id="MemoryStore">
@@ -292,6 +364,14 @@ final response = await agent.process(
 </dt>
 <dd>
   Builds human-readable narrative summaries from memory data.
+</dd>
+
+          <dt id="OpenAIProvider">
+  <span class="name "><a href="../nanobot_dart/OpenAIProvider-class.html">OpenAIProvider</a></span> 
+
+</dt>
+<dd>
+  OpenAI LLM provider.
 </dd>
 
           <dt id="OpenRouterProvider">
@@ -390,6 +470,14 @@ final response = await agent.process(
   Status of a subagent task.
 </dd>
 
+          <dt id="TelegramChannel">
+  <span class="name "><a href="../nanobot_dart/TelegramChannel-class.html">TelegramChannel</a></span> 
+
+</dt>
+<dd>
+  
+</dd>
+
           <dt id="TelegramConfig">
   <span class="name "><a href="../nanobot_dart/TelegramConfig-class.html">TelegramConfig</a></span> 
 
@@ -476,6 +564,14 @@ final response = await agent.process(
 </dt>
 <dd>
   Web tools configuration.
+</dd>
+
+          <dt id="WhatsAppChannel">
+  <span class="name "><a href="../nanobot_dart/WhatsAppChannel-class.html">WhatsAppChannel</a></span> 
+
+</dt>
+<dd>
+  
 </dd>
 
           <dt id="WhatsAppConfig">
@@ -577,6 +673,39 @@ final response = await agent.process(
       </dl>
     </section>
 
+    <section class="summary offset-anchor" id="typedefs">
+      <h2>Typedefs</h2>
+      <dl>
+          
+  <dt id="CronJobCallback" class="callable">
+    <span class="name"><a href="../nanobot_dart/CronJobCallback.html">CronJobCallback</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-job"><span class="type-annotation"><a href="../nanobot_dart/CronJob-class.html">CronJob</a></span> <span class="parameter-name">job</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    Callback to execute a cron job.
+    
+
+  </dd>
+
+          
+  <dt id="HeartbeatCallback" class="callable">
+    <span class="name"><a href="../nanobot_dart/HeartbeatCallback.html">HeartbeatCallback</a></span><span class="signature">
+      <span class="returntype parameter">= <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span> Function<span class="signature">(<span class="parameter" id="param-prompt"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">prompt</span></span>)</span></span>
+    </span>
+    
+
+  </dt>
+  <dd>
+    Callback for heartbeat execution.
+    
+
+  </dd>
+
+      </dl>
+    </section>
 
   </div> <!-- /.main-content -->
   <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">

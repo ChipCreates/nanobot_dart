@@ -1011,8 +1011,8 @@ class _$CronJobImpl implements _CronJob {
       required this.schedule,
       @JsonKey(name: 'createdAtMs') required this.createdAtMs,
       @JsonKey(name: 'updatedAtMs') required this.updatedAtMs,
-      required this.payload = const CronPayload(),
-      required this.state = const CronJobState(),
+      this.payload = const CronPayload(),
+      this.state = const CronJobState(),
       this.enabled = true,
       @JsonKey(name: 'deleteAfterRun') this.deleteAfterRun = false});
 
@@ -1097,8 +1097,8 @@ abstract class _CronJob implements CronJob {
           required final CronSchedule schedule,
           @JsonKey(name: 'createdAtMs') required final int createdAtMs,
           @JsonKey(name: 'updatedAtMs') required final int updatedAtMs,
-          required final CronPayload payload,
-          required final CronJobState state,
+          final CronPayload payload,
+          final CronJobState state,
           final bool enabled,
           @JsonKey(name: 'deleteAfterRun') final bool deleteAfterRun}) =
       _$CronJobImpl;

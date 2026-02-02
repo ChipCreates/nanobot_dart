@@ -76,7 +76,14 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;bool&gt; isAvailable() async {
-  return false;
+  try {
+    final response = await _httpClient.get(
+      Uri.parse(&#39;$baseUrl&#47;api&#47;tags&#39;),
+    );
+    return response.statusCode == 200;
+  } catch (e) {
+    return false;
+  }
 }</code></pre>
 </section>
 

@@ -75,8 +75,8 @@ class CronJob with _$CronJob {
     required CronSchedule schedule,
     @JsonKey(name: 'createdAtMs') required int createdAtMs,
     @JsonKey(name: 'updatedAtMs') required int updatedAtMs,
-    @Default(CronPayload()) required CronPayload payload,
-    @Default(CronJobState()) required CronJobState state,
+    @Default(CronPayload()) CronPayload payload,
+    @Default(CronJobState()) CronJobState state,
     @Default(true) bool enabled,
     @JsonKey(name: 'deleteAfterRun') @Default(false) bool deleteAfterRun,
   }) = _CronJob;
