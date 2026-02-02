@@ -29,7 +29,6 @@ void main() {
       });
 
       final provider = LocalLlmProvider(
-        model: 'llama3.1',
         httpClient: mockClient,
       );
 
@@ -136,7 +135,6 @@ void main() {
       });
 
       final provider = LocalLlmProvider(
-        model: 'llama3.1',
         httpClient: mockClient,
       );
 
@@ -235,7 +233,9 @@ void main() {
     test('uses custom baseUrl', () async {
       final mockClient = MockClient((request) async {
         expect(
-            request.url.toString(), startsWith('http://192.168.1.100:11434'));
+          request.url.toString(),
+          startsWith('http://192.168.1.100:11434'),
+        );
 
         return http.Response(
           jsonEncode(<String, dynamic>{

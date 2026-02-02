@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:nanobot_dart/src/bus/events.dart';
 import 'package:nanobot_dart/src/channels/base.dart';
 import 'package:teledart/model.dart';
@@ -61,7 +62,7 @@ class TelegramChannel extends BaseChannel {
 
     // Listen for messages
     _teledart!.onMessage(entityType: '*').listen((message) async {
-      await _onMessage(message);
+      await handleTeledartMessage(message);
     });
 
     // Command listener
@@ -70,6 +71,12 @@ class TelegramChannel extends BaseChannel {
           .reply("👋 Hi ${message.from?.firstName ?? 'there'}! I'm nanobot.\n\n"
               "Send me a message and I'll respond!");
     });
+  }
+
+  @visibleForTesting
+  void setTeleDartForTest(TeleDart td) {
+    _teledart = td;
+    _initialized = true;
   }
 
   @override
@@ -101,7 +108,8 @@ class TelegramChannel extends BaseChannel {
     }
   }
 
-  Future<void> _onMessage(TeleDartMessage message) async {
+  @visibleForTesting
+  Future<void> handleTeledartMessage(TeleDartMessage message) async {
     if (message.from == null) return;
 
     final user = message.from!;

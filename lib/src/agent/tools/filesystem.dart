@@ -58,7 +58,10 @@ class ReadFileTool extends FilesystemTool {
 
   @override
   Future<String> execute(Map<String, dynamic> params) async {
-    final path = params['path'] as String;
+    final path = params['path'] as String?;
+    if (path == null) {
+      throw ArgumentError('path is required');
+    }
     final absolutePath = validatePath(path);
     final file = File(absolutePath);
 
@@ -106,9 +109,16 @@ class WriteFileTool extends FilesystemTool {
 
   @override
   Future<String> execute(Map<String, dynamic> params) async {
-    final path = params['path'] as String;
-    final content = params['content'] as String;
+    final path = params['path'] as String?;
+    final content = params['content'] as String?;
     final append = params['append'] as bool? ?? false;
+
+    if (path == null) {
+      throw ArgumentError('path is required');
+    }
+    if (content == null) {
+      throw ArgumentError('content is required');
+    }
 
     final absolutePath = validatePath(path);
     final file = File(absolutePath);
@@ -212,9 +222,19 @@ class EditFileTool extends FilesystemTool {
 
   @override
   Future<String> execute(Map<String, dynamic> params) async {
-    final path = params['path'] as String;
-    final oldText = params['old_text'] as String;
-    final newText = params['new_text'] as String;
+    final path = params['path'] as String?;
+    final oldText = params['old_text'] as String?;
+    final newText = params['new_text'] as String?;
+
+    if (path == null) {
+      throw ArgumentError('path is required');
+    }
+    if (oldText == null) {
+      throw ArgumentError('old_text is required');
+    }
+    if (newText == null) {
+      throw ArgumentError('new_text is required');
+    }
 
     final absolutePath = validatePath(path);
     final file = File(absolutePath);

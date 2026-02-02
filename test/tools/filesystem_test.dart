@@ -125,5 +125,253 @@ void main() {
         expect(result, contains('root.txt'));
       });
     });
+
+    group('EditFileTool', () {
+      test('replaces text in file', () async {
+        final file = File(p.join(workspacePath, 'edit.txt'));
+        await file.writeAsString('Hello World');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'edit.txt',
+          'old_text': 'World',
+          'new_text': 'Dart',
+        });
+
+        expect(result, contains('Successfully edited'));
+        expect(await file.readAsString(), 'Hello Dart');
+      });
+
+      test('returns error for non-existent file', () async {
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'non_existent.txt',
+          'old_text': 'foo',
+          'new_text': 'bar',
+        });
+
+        expect(result, contains('File not found'));
+      });
+
+      test('returns error when old_text not found', () async {
+        final file = File(p.join(workspacePath, 'edit.txt'));
+        await file.writeAsString('Hello World');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'edit.txt',
+          'old_text': 'Goodbye',
+          'new_text': 'Hi',
+        });
+
+        expect(result, contains('not found in file'));
+      });
+
+      test('warns when old_text appears multiple times', () async {
+        final file = File(p.join(workspacePath, 'edit.txt'));
+        await file.writeAsString('foo bar foo');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'edit.txt',
+          'old_text': 'foo',
+          'new_text': 'baz',
+        });
+
+        expect(result, contains('appears 2 times'));
+        // File should not be modified
+        expect(await file.readAsString(), 'foo bar foo');
+      });
+
+      test('handles multiline replacement', () async {
+        final file = File(p.join(workspacePath, 'edit.txt'));
+        await file.writeAsString('line1\nold content\nline3');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'edit.txt',
+          'old_text': 'old content',
+          'new_text': 'new content\nextra line',
+        });
+
+        expect(result, contains('Successfully edited'));
+        expect(
+          await file.readAsString(),
+          'line1\nnew content\nextra line\nline3',
+        );
+      });
+    });
+
+    group('Edge Cases', () {
+      test('EditFileTool with empty file', () async {
+        final file = File(p.join(workspacePath, 'empty.txt'));
+        await file.writeAsString('');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'empty.txt',
+          'old_text': 'anything',
+          'new_text': 'something',
+        });
+
+        expect(result, contains('not found in file'));
+      });
+
+      test('EditFileTool where file is only old_text', () async {
+        final file = File(p.join(workspacePath, 'only.txt'));
+        await file.writeAsString('ONLY');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        await tool.execute({
+          'path': 'only.txt',
+          'old_text': 'ONLY',
+          'new_text': 'REPLACED',
+        });
+
+        expect(await file.readAsString(), 'REPLACED');
+      });
+
+      test('WriteFileTool with null append (default false)', () async {
+        final file = File(p.join(workspacePath, 'append_test.txt'));
+        await file.writeAsString('Initial');
+
+        final tool = WriteFileTool(workspacePath: workspacePath);
+        await tool.execute({
+          'path': 'append_test.txt',
+          'content': 'Overwritten',
+        });
+
+        expect(await file.readAsString(), 'Overwritten');
+      });
+
+      test('validatePath prevents directory traversal with multiple dots', () {
+        final tool = ListDirTool(workspacePath: workspacePath);
+        expect(
+          () => tool.validatePath('sub/../../outside.txt'),
+          throwsA(isA<FileSystemException>()),
+        );
+      });
+
+      test('ListDirTool handles mixed file and directory', () async {
+        await Directory(p.join(workspacePath, 'subdir')).create();
+        await File(p.join(workspacePath, 'file.txt')).writeAsString('content');
+
+        final tool = ListDirTool(workspacePath: workspacePath);
+        final result = await tool.execute({'path': '.'});
+
+        expect(result, contains('[DIR] subdir'));
+        expect(result, contains('[FILE] file.txt'));
+      });
+
+      test('ReadFileTool fails on directory', () async {
+        await Directory(p.join(workspacePath, 'subdir')).create();
+
+        final tool = ReadFileTool(workspacePath: workspacePath);
+        expect(
+          () => tool.execute({'path': 'subdir'}),
+          throwsA(isA<FileSystemException>()),
+        );
+      });
+
+      test('WriteFileTool appends content', () async {
+        const path = 'append_test.txt';
+        final absolutePath = p.join(workspacePath, path);
+        final file = File(absolutePath);
+        await file.writeAsString('Line 1\n');
+
+        final tool = WriteFileTool(workspacePath: workspacePath);
+        await tool.execute({
+          'path': path,
+          'content': 'Line 2',
+          'append': true,
+        });
+
+        expect(await file.readAsString(), 'Line 1\nLine 2');
+      });
+
+      test('ListDirTool fails on file', () async {
+        final file = File(p.join(workspacePath, 'not_a_dir.txt'));
+        await file.writeAsString('I am a file');
+
+        final tool = ListDirTool(workspacePath: workspacePath);
+        expect(
+          () => tool.execute({'path': 'not_a_dir.txt'}),
+          throwsA(isA<FileSystemException>()),
+        );
+      });
+
+      test('EditFileTool warns on multiple occurrences', () async {
+        final file = File(p.join(workspacePath, 'multi.txt'));
+        await file.writeAsString('repeat repeat repeat');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'multi.txt',
+          'old_text': 'repeat',
+          'new_text': 'single',
+        });
+        expect(result, contains('Warning: old_text appears 3 times'));
+      });
+
+      test('ListDirTool handles empty directory', () async {
+        final dir = Directory(p.join(workspacePath, 'empty_dir'));
+        await dir.create();
+
+        final tool = ListDirTool(workspacePath: workspacePath);
+        final result = await tool.execute({'path': 'empty_dir'});
+        expect(result, contains('(empty)'));
+      });
+
+      test('EditFileTool handles missing old_text', () async {
+        final file = File(p.join(workspacePath, 'missing.txt'));
+        await file.writeAsString('hello world');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'missing.txt',
+          'old_text': 'nonexistent',
+          'new_text': 'new',
+        });
+        expect(result, contains('Error: old_text not found'));
+      });
+
+      test('EditFileTool handles old_text == new_text', () async {
+        final file = File(p.join(workspacePath, 'same.txt'));
+        await file.writeAsString('hello');
+
+        final tool = EditFileTool(workspacePath: workspacePath);
+        final result = await tool.execute({
+          'path': 'same.txt',
+          'old_text': 'hello',
+          'new_text': 'hello',
+        });
+        expect(result, contains('Successfully edited'));
+      });
+
+      test('ReadFileTool handles non-existent file', () async {
+        final tool = ReadFileTool(workspacePath: workspacePath);
+        expect(
+          () => tool.execute({'path': 'nonexistent.txt'}),
+          throwsA(isA<FileSystemException>()),
+        );
+      });
+
+      test('FilesystemTool.execute throws ArgumentError on missing path',
+          () async {
+        final tool = ReadFileTool(workspacePath: workspacePath);
+        expect(
+          () => tool.execute({}),
+          throwsArgumentError,
+        );
+      });
+
+      test('FilesystemTool validatePath handles empty path', () {
+        final tool = ListDirTool(workspacePath: workspacePath);
+        expect(
+          () => tool.validatePath(''),
+          throwsA(isA<FileSystemException>()),
+        );
+      });
+    });
   });
 }

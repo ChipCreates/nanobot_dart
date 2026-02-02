@@ -54,50 +54,57 @@ class AgentLoop {
     CancellationToken? cancellationToken,
   }) async {
     var iteration = 0;
-    var messages = context.buildMessages(message);
+    try {
+      var messages = context.buildMessages(message);
 
-    while (iteration < maxIterations) {
-      // Check for cancellation
-      if (cancellationToken?.isCancelled ?? false) {
-        return AgentResponse(
-          content: 'Operation cancelled.',
-          iteration: iteration,
-          cancelled: true,
-        );
-      }
-
-      iteration++;
-
-      // Call LLM
-      final response = await provider.chat(
-        messages: messages,
-        tools: tools.definitions,
-      );
-
-      if (response.hasToolCalls) {
-        // Add assistant message with tool calls
-        messages = context.addAssistantMessage(messages, response);
-
-        // Execute each tool and add results
-        for (final toolCall in response.toolCalls!) {
-          final result = await tools.execute(toolCall);
-          messages = context.addToolResult(messages, toolCall.id, result);
+      while (iteration < maxIterations) {
+        // Check for cancellation
+        if (cancellationToken?.isCancelled ?? false) {
+          return AgentResponse(
+            content: 'Operation cancelled.',
+            iteration: iteration,
+            cancelled: true,
+          );
         }
-      } else {
-        // No tool calls - return final response
-        return AgentResponse(
-          content: response.content ?? '',
-          iteration: iteration,
-        );
-      }
-    }
 
-    // Max iterations reached
-    return AgentResponse(
-      content: 'Max iterations ($maxIterations) reached.',
-      iteration: iteration,
-      maxIterationsReached: true,
-    );
+        iteration++;
+
+        // Call LLM
+        final response = await provider.chat(
+          messages: messages,
+          tools: tools.definitions,
+        );
+
+        if (response.hasToolCalls) {
+          // Add assistant message with tool calls
+          messages = context.addAssistantMessage(messages, response);
+
+          // Execute each tool and add results
+          for (final toolCall in response.toolCalls!) {
+            final result = await tools.execute(toolCall);
+            messages = context.addToolResult(messages, toolCall.id, result);
+          }
+        } else {
+          // No tool calls - return final response
+          return AgentResponse(
+            content: response.content ?? '',
+            iteration: iteration,
+          );
+        }
+      }
+
+      // Max iterations reached
+      return AgentResponse(
+        content: 'Max iterations ($maxIterations) reached.',
+        iteration: iteration,
+        maxIterationsReached: true,
+      );
+    } catch (e) {
+      return AgentResponse(
+        content: 'An error occurred during processing: $e',
+        iteration: iteration,
+      );
+    }
   }
 
   /// Process a message with streaming events.
@@ -117,81 +124,90 @@ class AgentLoop {
     CancellationToken? cancellationToken,
   }) async* {
     var iteration = 0;
-    var messages = context.buildMessages(message);
+    try {
+      var messages = context.buildMessages(message);
 
-    while (iteration < maxIterations) {
-      // Check for cancellation
-      if (cancellationToken?.isCancelled ?? false) {
-        yield AgentEvent(
-          type: AgentEventType.loopComplete,
-          iteration: iteration,
-          content: 'Operation cancelled.',
-          timestamp: DateTime.now(),
-        );
-        return;
-      }
-
-      iteration++;
-      yield AgentEvent(
-        type: AgentEventType.iterationStart,
-        iteration: iteration,
-        timestamp: DateTime.now(),
-      );
-
-      // Call LLM
-      final response = await provider.chat(
-        messages: messages,
-        tools: tools.definitions,
-      );
-
-      yield AgentEvent(
-        type: AgentEventType.llmResponse,
-        iteration: iteration,
-        content: response.content,
-        timestamp: DateTime.now(),
-      );
-
-      if (response.hasToolCalls) {
-        // Add assistant message with tool calls
-        messages = context.addAssistantMessage(messages, response);
-
-        // Execute each tool and add results
-        for (final toolCall in response.toolCalls!) {
+      while (iteration < maxIterations) {
+        // Check for cancellation
+        if (cancellationToken?.isCancelled ?? false) {
           yield AgentEvent(
-            type: AgentEventType.toolExecution,
+            type: AgentEventType.loopComplete,
             iteration: iteration,
-            toolName: toolCall.name,
+            content: 'Operation cancelled.',
             timestamp: DateTime.now(),
           );
-
-          final result = await tools.execute(toolCall);
-          messages = context.addToolResult(messages, toolCall.id, result);
+          return;
         }
 
+        iteration++;
         yield AgentEvent(
-          type: AgentEventType.iterationComplete,
+          type: AgentEventType.iterationStart,
           iteration: iteration,
           timestamp: DateTime.now(),
         );
-      } else {
-        // No tool calls - return final response
-        yield AgentEvent(
-          type: AgentEventType.loopComplete,
-          iteration: iteration,
-          content: response.content ?? '',
-          timestamp: DateTime.now(),
-        );
-        return;
-      }
-    }
 
-    // Max iterations reached
-    yield AgentEvent(
-      type: AgentEventType.loopComplete,
-      iteration: iteration,
-      content: 'Max iterations ($maxIterations) reached.',
-      timestamp: DateTime.now(),
-    );
+        // Call LLM
+        final response = await provider.chat(
+          messages: messages,
+          tools: tools.definitions,
+        );
+
+        yield AgentEvent(
+          type: AgentEventType.llmResponse,
+          iteration: iteration,
+          content: response.content,
+          timestamp: DateTime.now(),
+        );
+
+        if (response.hasToolCalls) {
+          // Add assistant message with tool calls
+          messages = context.addAssistantMessage(messages, response);
+
+          // Execute each tool and add results
+          for (final toolCall in response.toolCalls!) {
+            yield AgentEvent(
+              type: AgentEventType.toolExecution,
+              iteration: iteration,
+              toolName: toolCall.name,
+              timestamp: DateTime.now(),
+            );
+
+            final result = await tools.execute(toolCall);
+            messages = context.addToolResult(messages, toolCall.id, result);
+          }
+
+          yield AgentEvent(
+            type: AgentEventType.iterationComplete,
+            iteration: iteration,
+            timestamp: DateTime.now(),
+          );
+        } else {
+          // No tool calls - return final response
+          yield AgentEvent(
+            type: AgentEventType.loopComplete,
+            iteration: iteration,
+            content: response.content ?? '',
+            timestamp: DateTime.now(),
+          );
+          return;
+        }
+      }
+
+      // Max iterations reached
+      yield AgentEvent(
+        type: AgentEventType.loopComplete,
+        iteration: iteration,
+        content: 'Max iterations ($maxIterations) reached.',
+        timestamp: DateTime.now(),
+      );
+    } catch (e) {
+      yield AgentEvent(
+        type: AgentEventType.loopComplete,
+        iteration: iteration,
+        content: 'An error occurred during processing: $e',
+        timestamp: DateTime.now(),
+      );
+    }
   }
 }
 

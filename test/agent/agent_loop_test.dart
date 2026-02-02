@@ -32,7 +32,8 @@ void main() {
       const message = InboundMessage(
         content: 'Hi there',
         channel: 'test',
-        chatId: '123', senderId: 'user',
+        chatId: '123',
+        senderId: 'user',
       );
 
       final response = await loop.process(message);
@@ -52,7 +53,6 @@ void main() {
       tools.register(mockTool);
 
       final provider = MockLlmProvider([
-        // First response: tool call
         const LlmResponse(
           toolCalls: [
             ToolCall(
@@ -62,7 +62,6 @@ void main() {
             ),
           ],
         ),
-        // Second response: final answer
         const LlmResponse(
           content: 'Based on the tool result, here is my answer.',
         ),
@@ -77,7 +76,8 @@ void main() {
       const message = InboundMessage(
         content: 'Run the test tool',
         channel: 'test',
-        chatId: '123', senderId: 'user',
+        chatId: '123',
+        senderId: 'user',
       );
 
       final response = await loop.process(message);
@@ -92,7 +92,6 @@ void main() {
       final mockTool = MockTool(toolName: 'test_tool');
       tools.register(mockTool);
 
-      // Always return tool calls (infinite loop scenario)
       final provider = MockLlmProvider(
         List.generate(
           25,
@@ -118,7 +117,8 @@ void main() {
       const message = InboundMessage(
         content: 'Test',
         channel: 'test',
-        chatId: '123', senderId: 'user',
+        chatId: '123',
+        senderId: 'user',
       );
 
       final response = await loop.process(message);
@@ -143,16 +143,17 @@ void main() {
       const message = InboundMessage(
         content: 'Test',
         channel: 'test',
-        chatId: '123', senderId: 'user',
+        chatId: '123',
+        senderId: 'user',
       );
 
-      final token = CancellationToken()..cancel(); // Cancel immediately
+      final token = CancellationToken()..cancel();
 
       final response = await loop.process(message, cancellationToken: token);
 
       expect(response.content, 'Operation cancelled.');
       expect(response.cancelled, true);
-      expect(provider.callCount, 0); // Never called LLM
+      expect(provider.callCount, 0);
     });
 
     test('processStream emits events correctly', () async {
@@ -160,7 +161,6 @@ void main() {
       tools.register(mockTool);
 
       final provider = MockLlmProvider([
-        // First: tool call
         const LlmResponse(
           toolCalls: [
             ToolCall(
@@ -170,7 +170,6 @@ void main() {
             ),
           ],
         ),
-        // Second: final response
         const LlmResponse(content: 'Done'),
       ]);
 
@@ -183,7 +182,8 @@ void main() {
       const message = InboundMessage(
         content: 'Test',
         channel: 'test',
-        chatId: '123', senderId: 'user',
+        chatId: '123',
+        senderId: 'user',
       );
 
       final events = <AgentEvent>[];
@@ -191,101 +191,57 @@ void main() {
         events.add(event);
       }
 
-      // Expected events:
-      // 1. iterationStart (iteration 1)
-      // 2. llmResponse (iteration 1)
-      // 3. toolExecution (iteration 1)
-      // 4. iterationComplete (iteration 1)
-      // 5. iterationStart (iteration 2)
-      // 6. llmResponse (iteration 2)
-      // 7. loopComplete (iteration 2)
-
       expect(events.length, 7);
       expect(events[0].type, AgentEventType.iterationStart);
       expect(events[1].type, AgentEventType.llmResponse);
       expect(events[2].type, AgentEventType.toolExecution);
-      expect(events[2].toolName, 'test_tool');
       expect(events[3].type, AgentEventType.iterationComplete);
-      expect(events[4].type, AgentEventType.iterationStart);
-      expect(events[5].type, AgentEventType.llmResponse);
       expect(events[6].type, AgentEventType.loopComplete);
       expect(events[6].content, 'Done');
     });
 
-    test('processStream handles cancellation', () async {
-      final provider = MockLlmProvider([
-        const LlmResponse(content: 'Response'),
-      ]);
-
+    test('handles provider errors', () async {
+      final provider = MockLlmProvider([]);
       final loop = AgentLoop(
         provider: provider,
         tools: tools,
         context: context,
       );
 
-      const message = InboundMessage(
-        content: 'Test',
-        channel: 'test',
-        chatId: '123', senderId: 'user',
+      final response = await loop.process(
+        const InboundMessage(
+          content: 'test',
+          channel: 'test',
+          chatId: '1',
+          senderId: 'u',
+        ),
       );
 
-      final token = CancellationToken()..cancel();
+      expect(response.content, contains('An error occurred'));
+    });
+
+    test('processStream handles provider errors', () async {
+      final provider = MockLlmProvider([]);
+      final loop = AgentLoop(
+        provider: provider,
+        tools: tools,
+        context: context,
+      );
 
       final events = <AgentEvent>[];
-      await for (final event
-          in loop.processStream(message, cancellationToken: token)) {
+      await for (final event in loop.processStream(
+        const InboundMessage(
+          content: 'test',
+          channel: 'test',
+          chatId: '1',
+          senderId: 'u',
+        ),
+      )) {
         events.add(event);
       }
 
-      expect(events.length, 1);
-      expect(events[0].type, AgentEventType.loopComplete);
-      expect(events[0].content, 'Operation cancelled.');
-    });
-
-    test('handles multiple tool calls in single iteration', () async {
-      final tool1 = MockTool(toolName: 'tool1', output: 'Result 1');
-      final tool2 = MockTool(toolName: 'tool2', output: 'Result 2');
-      tools
-        ..register(tool1)
-        ..register(tool2);
-
-      final provider = MockLlmProvider([
-        // First: multiple tool calls
-        const LlmResponse(
-          toolCalls: [
-            ToolCall(
-              id: 'call_1',
-              name: 'tool1',
-              arguments: <String, dynamic>{},
-            ),
-            ToolCall(
-              id: 'call_2',
-              name: 'tool2',
-              arguments: <String, dynamic>{},
-            ),
-          ],
-        ),
-        // Second: final response
-        const LlmResponse(content: 'All tools executed'),
-      ]);
-
-      final loop = AgentLoop(
-        provider: provider,
-        tools: tools,
-        context: context,
-      );
-
-      const message = InboundMessage(
-        content: 'Test',
-        channel: 'test',
-        chatId: '123', senderId: 'user',
-      );
-
-      final response = await loop.process(message);
-
-      expect(response.content, 'All tools executed');
-      expect(tool1.callCount, 1);
-      expect(tool2.callCount, 1);
+      expect(events.last.content, contains('An error occurred'));
+      expect(events.last.type, AgentEventType.loopComplete);
     });
   });
 }

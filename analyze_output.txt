@@ -1,0 +1,13 @@
+Analyzing nanobot_dart...
+
+   info - test/channels/channel_manager_test.dart:90:11 - Missing an 'await' for the 'Future' computed by this expression. Try adding an 'await' or wrapping the expression with 'unawaited'. - unawaited_futures
+   info - test/heartbeat/heartbeat_service_test.dart:24:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:35:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:90:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:114:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:136:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:158:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:177:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+   info - test/heartbeat/heartbeat_service_test.dart:191:7 - Unnecessary duplication of receiver. Try using a cascade to avoid the duplication. - cascade_invocations
+
+9 issues found.

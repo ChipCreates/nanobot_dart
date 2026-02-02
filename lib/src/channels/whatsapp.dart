@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 import 'package:nanobot_dart/src/bus/events.dart';
 import 'package:nanobot_dart/src/channels/base.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
@@ -63,7 +64,7 @@ class WhatsAppChannel extends BaseChannel {
         await _ws!.stream.listen(
           (dynamic message) {
             if (message is String) {
-              _handleBridgeMessage(message);
+              handleBridgeMessage(message);
             }
           },
           onDone: () {
@@ -85,6 +86,12 @@ class WhatsAppChannel extends BaseChannel {
         await Future<void>.delayed(const Duration(seconds: 5));
       }
     }
+  }
+
+  @visibleForTesting
+  void setWebSocketForTest(WebSocketChannel ws) {
+    _ws = ws;
+    _connected = true;
   }
 
   @override
@@ -114,7 +121,8 @@ class WhatsAppChannel extends BaseChannel {
     }
   }
 
-  void _handleBridgeMessage(String raw) {
+  @visibleForTesting
+  void handleBridgeMessage(String raw) {
     try {
       final data = jsonDecode(raw) as Map<String, dynamic>;
       final type = data['type'] as String?;
