@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the isAvailable method from the LocalLlmProvider class, for the Dart programming language.">
-  <title>isAvailable method - LocalLlmProvider class - nanobot_dart library - Dart API</title>
+  <meta name="description" content="API docs for the isAvailable method from the AnthropicProvider class, for the Dart programming language.">
+  <title>isAvailable method - AnthropicProvider class - nanobot_dart library - Dart API</title>
 
 
   
@@ -26,7 +26,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">nanobot_dart</a></li>
     <li><a href="../../nanobot_dart/">nanobot_dart.dart</a></li>
-    <li><a href="../../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></li>
+    <li><a href="../../nanobot_dart/AnthropicProvider-class.html">AnthropicProvider</a></li>
     <li class="self-crumb">isAvailable method</li>
   </ol>
   <div class="self-name">isAvailable</div>
@@ -46,7 +46,7 @@
 <div
     id="dartdoc-main-content"
     class="main-content"
-    data-above-sidebar="nanobot_dart&#47;LocalLlmProvider-class-sidebar.html"
+    data-above-sidebar="nanobot_dart&#47;AnthropicProvider-class-sidebar.html"
     data-below-sidebar="">
     <div>
 <h1><span class="kind-method">isAvailable</span> method 
@@ -76,7 +76,8 @@
   <h2><span>Implementation</span></h2>
   <pre class="language-dart"><code class="language-dart">@override
 Future&lt;bool&gt; isAvailable() async {
-  return false;
+  &#47;&#47; Anthropic doesn&#39;t have a simple auth check endpoint, assuming true if key exists
+  return apiKey.isNotEmpty;
 }</code></pre>
 </section>
 
@@ -92,11 +93,11 @@ Future&lt;bool&gt; isAvailable() async {
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">nanobot_dart</a></li>
     <li><a href="../../nanobot_dart/">nanobot_dart</a></li>
-    <li><a href="../../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></li>
+    <li><a href="../../nanobot_dart/AnthropicProvider-class.html">AnthropicProvider</a></li>
     <li class="self-crumb">isAvailable method</li>
 </ol>
 
-    <h5>LocalLlmProvider class</h5>
+    <h5>AnthropicProvider class</h5>
     <div id="dartdoc-sidebar-left-content"></div>
   </div><!--/.sidebar-offcanvas-->
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">

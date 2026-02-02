@@ -78,7 +78,21 @@
 })  : memory = memory ?? MemoryStore(workspacePath: config.workspacePath),
       sessions =
           sessions ?? SessionManager(workspacePath: config.workspacePath),
-      tools = tools ?? ToolRegistry();</code></pre>
+      tools = tools ?? ToolRegistry(),
+      subagentManager = SubagentManager() {
+  &#47;&#47; Register default tools
+  this.tools.register(ExecTool());
+  this.tools.register(
+        SpawnTool(
+          manager: subagentManager,
+          agentLoop: AgentLoop(
+            provider: provider,
+            tools: this.tools,
+            context: ContextBuilder(systemPrompt: systemPrompt),
+          ),
+        ),
+      );
+}</code></pre>
 </section>
 
 

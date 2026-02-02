@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the chat method from the LocalLlmProvider class, for the Dart programming language.">
-  <title>chat method - LocalLlmProvider class - nanobot_dart library - Dart API</title>
+  <meta name="description" content="API docs for the chat method from the AnthropicProvider class, for the Dart programming language.">
+  <title>chat method - AnthropicProvider class - nanobot_dart library - Dart API</title>
 
 
   
@@ -26,7 +26,7 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">nanobot_dart</a></li>
     <li><a href="../../nanobot_dart/">nanobot_dart.dart</a></li>
-    <li><a href="../../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></li>
+    <li><a href="../../nanobot_dart/AnthropicProvider-class.html">AnthropicProvider</a></li>
     <li class="self-crumb">chat method</li>
   </ol>
   <div class="self-name">chat</div>
@@ -46,7 +46,7 @@
 <div
     id="dartdoc-main-content"
     class="main-content"
-    data-above-sidebar="nanobot_dart&#47;LocalLlmProvider-class-sidebar.html"
+    data-above-sidebar="nanobot_dart&#47;AnthropicProvider-class-sidebar.html"
     data-below-sidebar="">
     <div>
 <h1><span class="kind-method">chat</span> method 
@@ -83,7 +83,62 @@ Future&lt;LlmResponse&gt; chat({
   List&lt;dynamic&gt;? tools,
   String? model,
 }) async {
-  throw UnimplementedError(&#39;LocalLlmProvider.chat not yet implemented&#39;);
+  final requestBody = &lt;String, dynamic&gt;{
+    &#39;model&#39;: model ?? defaultModel,
+    &#39;messages&#39;: messages,
+    &#39;max_tokens&#39;: 4096, &#47;&#47; Required for Anthropic
+  };
+
+  if (tools != null &amp;&amp; tools.isNotEmpty) {
+    requestBody[&#39;tools&#39;] = tools;
+  }
+
+  try {
+    final response = await _httpClient.post(
+      Uri.parse(&#39;$baseUrl&#47;messages&#39;),
+      headers: {
+        &#39;x-api-key&#39;: apiKey,
+        &#39;anthropic-version&#39;: &#39;2023-06-01&#39;,
+        &#39;content-type&#39;: &#39;application&#47;json&#39;,
+      },
+      body: jsonEncode(requestBody),
+    );
+
+    if (response.statusCode != 200) {
+      return LlmResponse(
+        content: &#39;Error: ${response.statusCode} - ${response.body}&#39;,
+      );
+    }
+
+    final data = jsonDecode(response.body) as Map&lt;String, dynamic&gt;;
+    final contentAcc = StringBuffer();
+
+    final contentList = data[&#39;content&#39;] as List&lt;dynamic&gt;;
+    List&lt;ToolCall&gt;? toolCalls;
+
+    for (final item in contentList) {
+      final map = item as Map&lt;String, dynamic&gt;;
+      if (map[&#39;type&#39;] == &#39;text&#39;) {
+        contentAcc.write(map[&#39;text&#39;]);
+      } else if (map[&#39;type&#39;] == &#39;tool_use&#39;) {
+        toolCalls ??= [];
+        toolCalls.add(
+          ToolCall(
+            id: map[&#39;id&#39;] as String,
+            name: map[&#39;name&#39;] as String,
+            arguments: map[&#39;input&#39;] as Map&lt;String, dynamic&gt;,
+          ),
+        );
+      }
+    }
+
+    return LlmResponse(
+      content: contentAcc.toString(),
+      toolCalls: toolCalls,
+    );
+  } catch (e) {
+    return LlmResponse(content: &#39;Error calling Anthropic: $e&#39;);
+  }
 }</code></pre>
 </section>
 
@@ -99,11 +154,11 @@ Future&lt;LlmResponse&gt; chat({
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">nanobot_dart</a></li>
     <li><a href="../../nanobot_dart/">nanobot_dart</a></li>
-    <li><a href="../../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></li>
+    <li><a href="../../nanobot_dart/AnthropicProvider-class.html">AnthropicProvider</a></li>
     <li class="self-crumb">chat method</li>
 </ol>
 
-    <h5>LocalLlmProvider class</h5>
+    <h5>AnthropicProvider class</h5>
     <div id="dartdoc-sidebar-left-content"></div>
   </div><!--/.sidebar-offcanvas-->
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">

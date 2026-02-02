@@ -18,9 +18,17 @@ A standalone Dart port of [NanoBot](https://github.com/vllm-project/nanobot), an
 Add to your `pubspec.yaml`:
 
 ```yaml
+# From local path (during development)
 dependencies:
   nanobot_dart:
-    path: packages/nanobot_dart
+    path: ../nanobot_dart
+
+# Or from Git
+dependencies:
+  nanobot_dart:
+    git:
+      url: https://github.com/ChipCreates/nanobot_dart
+      ref: main
 ```
 
 ## Quick Start

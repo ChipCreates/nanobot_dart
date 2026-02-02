@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the isAvailable method from the LocalLlmProvider class, for the Dart programming language.">
-  <title>isAvailable method - LocalLlmProvider class - nanobot_dart library - Dart API</title>
+  <meta name="description" content="API docs for the deployBuiltins method from the SkillsRegistry class, for the Dart programming language.">
+  <title>deployBuiltins method - SkillsRegistry class - nanobot_dart library - Dart API</title>
 
 
   
@@ -26,10 +26,10 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../../index.html">nanobot_dart</a></li>
     <li><a href="../../nanobot_dart/">nanobot_dart.dart</a></li>
-    <li><a href="../../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></li>
-    <li class="self-crumb">isAvailable method</li>
+    <li><a href="../../nanobot_dart/SkillsRegistry-class.html">SkillsRegistry</a></li>
+    <li class="self-crumb">deployBuiltins method</li>
   </ol>
-  <div class="self-name">isAvailable</div>
+  <div class="self-name">deployBuiltins</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -46,37 +46,65 @@
 <div
     id="dartdoc-main-content"
     class="main-content"
-    data-above-sidebar="nanobot_dart&#47;LocalLlmProvider-class-sidebar.html"
+    data-above-sidebar="nanobot_dart&#47;SkillsRegistry-class-sidebar.html"
     data-below-sidebar="">
     <div>
-<h1><span class="kind-method">isAvailable</span> method 
+<h1><span class="kind-method">deployBuiltins</span> method 
 </h1></div>
 
     <section class="multi-line-signature">
       
-  <div>
-    <ol class="annotation-list">
-        <li>@<a href="https://api.flutter.dev/flutter/dart-core/override-constant.html">override</a></li>
-    </ol>
-  </div>
-<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
-<span class="name ">isAvailable</span>(<wbr>)
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">deployBuiltins</span>(<wbr>)
 
-      <div class="features"><span class="feature">override</span></div>
+      
 
     </section>
     
 <section class="desc markdown">
-  <p>Check if the provider is available.</p>
+  <p>Deploy built-in skills to the workspace.</p>
 </section>
 
 
     
 <section class="summary source-code" id="source">
   <h2><span>Implementation</span></h2>
-  <pre class="language-dart"><code class="language-dart">@override
-Future&lt;bool&gt; isAvailable() async {
-  return false;
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; deployBuiltins() async {
+  _logger.info(&#39;Deploying built-in skills to $_builtinDir&#39;);
+  final builtinDir = Directory(_builtinDir);
+  if (!builtinDir.existsSync()) {
+    builtinDir.createSync(recursive: true);
+  }
+
+  for (final entry in BuiltinSkillsBundle.files.entries) {
+    final parts = entry.key.split(&#39;&#47;&#39;);
+    &#47;&#47; parts[0] is skill name, parts[1..] is file path inside skill
+    &#47;&#47; e.g. github&#47;SKILL.md, tmux&#47;scripts&#47;find-sessions.sh
+
+    if (parts.length &lt; 2) continue;
+
+    final fullPath = p.join(_builtinDir, entry.key);
+    final file = File(fullPath);
+
+    &#47;&#47; Create parent dir if needed
+    if (!file.parent.existsSync()) {
+      file.parent.createSync(recursive: true);
+    }
+
+    &#47;&#47; Write file (overwrite if exists, or check version?)
+    &#47;&#47; For now, simple overwrite to ensure parity
+    await file.writeAsString(entry.value);
+
+    &#47;&#47; Make scripts executable
+    if (fullPath.endsWith(&#39;.sh&#39;) || fullPath.endsWith(&#39;.py&#39;)) {
+      try {
+        &#47;&#47; Use chmod +x
+        await Process.run(&#39;chmod&#39;, [&#39;+x&#39;, fullPath]);
+      } catch (e) {
+        _logger.warning(&#39;Failed to make executable: $fullPath&#39;);
+      }
+    }
+  }
 }</code></pre>
 </section>
 
@@ -92,11 +120,11 @@ Future&lt;bool&gt; isAvailable() async {
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../../index.html">nanobot_dart</a></li>
     <li><a href="../../nanobot_dart/">nanobot_dart</a></li>
-    <li><a href="../../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></li>
-    <li class="self-crumb">isAvailable method</li>
+    <li><a href="../../nanobot_dart/SkillsRegistry-class.html">SkillsRegistry</a></li>
+    <li class="self-crumb">deployBuiltins method</li>
 </ol>
 
-    <h5>LocalLlmProvider class</h5>
+    <h5>SkillsRegistry class</h5>
     <div id="dartdoc-sidebar-left-content"></div>
   </div><!--/.sidebar-offcanvas-->
   <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">

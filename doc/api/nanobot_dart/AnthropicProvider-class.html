@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the Tool class from the nanobot_dart library, for the Dart programming language.">
-  <title>Tool class - nanobot_dart library - Dart API</title>
+  <meta name="description" content="API docs for the AnthropicProvider class from the nanobot_dart library, for the Dart programming language.">
+  <title>AnthropicProvider class - nanobot_dart library - Dart API</title>
 
 
   
@@ -26,9 +26,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">nanobot_dart</a></li>
     <li><a href="../nanobot_dart/">nanobot_dart.dart</a></li>
-    <li class="self-crumb">Tool class</li>
+    <li class="self-crumb">AnthropicProvider class</li>
   </ol>
-  <div class="self-name">Tool</div>
+  <div class="self-name">AnthropicProvider</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -46,16 +46,15 @@
     id="dartdoc-main-content"
     class="main-content"
     data-above-sidebar="nanobot_dart&#47;nanobot_dart-library-sidebar.html"
-    data-below-sidebar="nanobot_dart&#47;Tool-class-sidebar.html">
+    data-below-sidebar="nanobot_dart&#47;AnthropicProvider-class-sidebar.html">
     <div>
-<h1><span class="kind-class">Tool</span> class 
-    <a href="https://dart.dev/language/class-modifiers#abstract" class="feature feature-abstract" title="This type can not be directly constructed.">abstract</a>
+<h1><span class="kind-class">AnthropicProvider</span> class 
  
 </h1></div>
 
     
 <section class="desc markdown">
-  <p>A tool that can be called by the LLM.</p>
+  <p>Anthropic LLM provider.</p>
 </section>
 
 
@@ -64,15 +63,14 @@
         
 
         
+  <dt>Implemented types</dt>
+  <dd>
+    <ul class="comma-separated clazz-relationships">
+        <li><a href="../nanobot_dart/LlmProvider-class.html">LlmProvider</a></li>
+    </ul>
+  </dd>
         
 
-          <dt>Implementers</dt>
-          <dd><ul class="comma-separated clazz-relationships">
-              <li><a href="../nanobot_dart/FilesystemTool-class.html">FilesystemTool</a></li>
-              <li><a href="../nanobot_dart/MessageTool-class.html">MessageTool</a></li>
-              <li><a href="../nanobot_dart/WebFetchTool-class.html">WebFetchTool</a></li>
-              <li><a href="../nanobot_dart/WebSearchTool-class.html">WebSearchTool</a></li>
-          </ul></dd>
 
         
         
@@ -85,8 +83,8 @@
   <section class="summary offset-anchor" id="constructors">
     <h2>Constructors</h2>
     <dl class="constructor-summary-list">
-        <dt id="Tool.new" class="callable">
-          <span class="name"><a href="../nanobot_dart/Tool/Tool.html">Tool</a></span><span class="signature">()</span>
+        <dt id="AnthropicProvider.new" class="callable">
+          <span class="name"><a href="../nanobot_dart/AnthropicProvider/AnthropicProvider.html">AnthropicProvider</a></span><span class="signature">({<span class="parameter" id="-param-apiKey"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">apiKey</span>, </span><span class="parameter" id="-param-defaultModel"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">defaultModel</span> = <span class="default-value">&#39;claude-3-5-sonnet-20240620&#39;</span>, </span><span class="parameter" id="-param-baseUrl"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">baseUrl</span> = <span class="default-value">&#39;https:&#47;&#47;api.anthropic.com&#47;v1&#39;</span>, </span><span class="parameter" id="-param-httpClient"><span class="type-annotation"><a href="https://pub.dev/documentation/http/1.6.0/http/Client-class.html">Client</a>?</span> <span class="parameter-name">httpClient</span></span>})</span>
         </dt>
         <dd>
           
@@ -99,27 +97,39 @@
       id="instance-properties">
     <h2>Properties</h2>
     <dl class="properties">
-        <dt id="definition" class="property">
-  <span class="name"><a href="../nanobot_dart/Tool/definition.html">definition</a></span>
-  <span class="signature">&#8594; <a href="../nanobot_dart/ToolDefinition-class.html">ToolDefinition</a></span>
-  
-
-</dt>
-<dd>
-  Get the tool definition for LLM function calling.
-  <div class="features"><span class="feature">no setter</span></div>
-
-</dd>
-
-        <dt id="description" class="property">
-  <span class="name"><a href="../nanobot_dart/Tool/description.html">description</a></span>
+        <dt id="apiKey" class="property">
+  <span class="name"><a href="../nanobot_dart/AnthropicProvider/apiKey.html">apiKey</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
   
 
 </dt>
 <dd>
-  Human-readable description.
-  <div class="features"><span class="feature">no setter</span></div>
+  
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="baseUrl" class="property">
+  <span class="name"><a href="../nanobot_dart/AnthropicProvider/baseUrl.html">baseUrl</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">final</span></div>
+
+</dd>
+
+        <dt id="defaultModel" class="property">
+  <span class="name"><a href="../nanobot_dart/AnthropicProvider/defaultModel.html">defaultModel</a></span>
+  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  
+
+</dt>
+<dd>
+  
+  <div class="features"><span class="feature">final</span></div>
 
 </dd>
 
@@ -136,26 +146,14 @@
 </dd>
 
         <dt id="name" class="property">
-  <span class="name"><a href="../nanobot_dart/Tool/name.html">name</a></span>
+  <span class="name"><a href="../nanobot_dart/AnthropicProvider/name.html">name</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
   
 
 </dt>
 <dd>
-  Unique name for this tool.
-  <div class="features"><span class="feature">no setter</span></div>
-
-</dd>
-
-        <dt id="parametersSchema" class="property">
-  <span class="name"><a href="../nanobot_dart/Tool/parametersSchema.html">parametersSchema</a></span>
-  <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
-  
-
-</dt>
-<dd>
-  JSON Schema for the tool's parameters.
-  <div class="features"><span class="feature">no setter</span></div>
+  Get the provider name.
+  <div class="features"><span class="feature">no setter</span><span class="feature">override</span></div>
 
 </dd>
 
@@ -180,16 +178,29 @@
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="execute" class="callable">
-  <span class="name"><a href="../nanobot_dart/Tool/execute.html">execute</a></span><span class="signature">(<wbr><span class="parameter" id="execute-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">params</span></span>)
-    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+        <dt id="chat" class="callable">
+  <span class="name"><a href="../nanobot_dart/AnthropicProvider/chat.html">chat</a></span><span class="signature">(<wbr>{<span class="parameter" id="chat-param-messages"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a></span> <span class="parameter-name">messages</span>, </span><span class="parameter" id="chat-param-tools"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a>?</span> <span class="parameter-name">tools</span>, </span><span class="parameter" id="chat-param-model"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">model</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../nanobot_dart/LlmResponse-class.html">LlmResponse</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
 <dd>
-  Execute the tool with the given parameters.
+  Send a chat completion request.
+  <div class="features"><span class="feature">override</span></div>
+
+</dd>
+
+        <dt id="isAvailable" class="callable">
+  <span class="name"><a href="../nanobot_dart/AnthropicProvider/isAvailable.html">isAvailable</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/bool-class.html">bool</a></span>&gt;</span></span>
+  </span>
   
+
+</dt>
+<dd>
+  Check if the provider is available.
+  <div class="features"><span class="feature">override</span></div>
 
 </dd>
 
@@ -257,7 +268,7 @@
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">nanobot_dart</a></li>
     <li><a href="../nanobot_dart/">nanobot_dart</a></li>
-    <li class="self-crumb">Tool class</li>
+    <li class="self-crumb">AnthropicProvider class</li>
 </ol>
 
     <h5>nanobot_dart library</h5>
