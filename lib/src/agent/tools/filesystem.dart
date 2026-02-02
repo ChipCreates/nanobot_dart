@@ -177,3 +177,68 @@ class ListDirTool extends FilesystemTool {
     return buffer.toString();
   }
 }
+
+/// Tool to edit a file by replacing text.
+class EditFileTool extends FilesystemTool {
+  EditFileTool({required super.workspacePath});
+
+  @override
+  String get name => 'edit_file';
+
+  @override
+  String get description => 'Edit a file by replacing old_text with new_text. '
+      'The old_text must exist exactly in the file.';
+
+  @override
+  Map<String, dynamic> get parametersSchema => {
+        'type': 'object',
+        'properties': {
+          'path': {
+            'type': 'string',
+            'description':
+                'The path to the file to edit, relative to workspace.',
+          },
+          'old_text': {
+            'type': 'string',
+            'description': 'The exact text to find and replace.',
+          },
+          'new_text': {
+            'type': 'string',
+            'description': 'The text to replace with.',
+          },
+        },
+        'required': ['path', 'old_text', 'new_text'],
+      };
+
+  @override
+  Future<String> execute(Map<String, dynamic> params) async {
+    final path = params['path'] as String;
+    final oldText = params['old_text'] as String;
+    final newText = params['new_text'] as String;
+
+    final absolutePath = validatePath(path);
+    final file = File(absolutePath);
+
+    if (!file.existsSync()) {
+      return 'Error: File not found: $path';
+    }
+
+    final content = await file.readAsString();
+
+    if (!content.contains(oldText)) {
+      return 'Error: old_text not found in file. Make sure it matches exactly.';
+    }
+
+    // Count occurrences to prevent ambiguous edits
+    final count = oldText.allMatches(content).length;
+    if (count > 1) {
+      return 'Warning: old_text appears $count times. '
+          'Please provide more context to make it unique.';
+    }
+
+    final newContent = content.replaceFirst(oldText, newText);
+    await file.writeAsString(newContent);
+
+    return 'Successfully edited $path';
+  }
+}

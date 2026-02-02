@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
-  <meta name="description" content="API docs for the FilesystemTool class from the nanobot_dart library, for the Dart programming language.">
-  <title>FilesystemTool class - nanobot_dart library - Dart API</title>
+  <meta name="description" content="API docs for the EditFileTool class from the nanobot_dart library, for the Dart programming language.">
+  <title>EditFileTool class - nanobot_dart library - Dart API</title>
 
 
   
@@ -26,9 +26,9 @@
   <ol class="breadcrumbs gt-separated dark hidden-xs">
     <li><a href="../index.html">nanobot_dart</a></li>
     <li><a href="../nanobot_dart/">nanobot_dart.dart</a></li>
-    <li class="self-crumb">FilesystemTool class</li>
+    <li class="self-crumb">EditFileTool class</li>
   </ol>
-  <div class="self-name">FilesystemTool</div>
+  <div class="self-name">EditFileTool</div>
   <form class="search navbar-right" role="search">
     <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
   </form>
@@ -46,16 +46,15 @@
     id="dartdoc-main-content"
     class="main-content"
     data-above-sidebar="nanobot_dart&#47;nanobot_dart-library-sidebar.html"
-    data-below-sidebar="nanobot_dart&#47;FilesystemTool-class-sidebar.html">
+    data-below-sidebar="nanobot_dart&#47;EditFileTool-class-sidebar.html">
     <div>
-<h1><span class="kind-class">FilesystemTool</span> class 
-    <a href="https://dart.dev/language/class-modifiers#abstract" class="feature feature-abstract" title="This type can not be directly constructed.">abstract</a>
+<h1><span class="kind-class">EditFileTool</span> class 
  
 </h1></div>
 
     
 <section class="desc markdown">
-  <p>Base class for filesystem tools with sandboxing.</p>
+  <p>Tool to edit a file by replacing text.</p>
 </section>
 
 
@@ -67,20 +66,14 @@
     <ul class="gt-separated dark clazz-relationships">
       <li><a href="https://api.flutter.dev/flutter/dart-core/Object-class.html">Object</a></li>
         <li><a href="../nanobot_dart/Tool-class.html">Tool</a></li>
-      <li>FilesystemTool</li>
+        <li><a href="../nanobot_dart/FilesystemTool-class.html">FilesystemTool</a></li>
+      <li>EditFileTool</li>
     </ul>
   </dd>
 
         
         
 
-          <dt>Implementers</dt>
-          <dd><ul class="comma-separated clazz-relationships">
-              <li><a href="../nanobot_dart/EditFileTool-class.html">EditFileTool</a></li>
-              <li><a href="../nanobot_dart/ListDirTool-class.html">ListDirTool</a></li>
-              <li><a href="../nanobot_dart/ReadFileTool-class.html">ReadFileTool</a></li>
-              <li><a href="../nanobot_dart/WriteFileTool-class.html">WriteFileTool</a></li>
-          </ul></dd>
 
         
         
@@ -93,8 +86,8 @@
   <section class="summary offset-anchor" id="constructors">
     <h2>Constructors</h2>
     <dl class="constructor-summary-list">
-        <dt id="FilesystemTool.new" class="callable">
-          <span class="name"><a href="../nanobot_dart/FilesystemTool/FilesystemTool.html">FilesystemTool</a></span><span class="signature">({<span class="parameter" id="-param-workspacePath"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">workspacePath</span></span>})</span>
+        <dt id="EditFileTool.new" class="callable">
+          <span class="name"><a href="../nanobot_dart/EditFileTool/EditFileTool.html">EditFileTool</a></span><span class="signature">({<span class="parameter" id="-param-workspacePath"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">workspacePath</span></span>})</span>
         </dt>
         <dd>
           
@@ -119,15 +112,15 @@
 
 </dd>
 
-        <dt id="description" class="property inherited">
-  <span class="name"><a href="../nanobot_dart/Tool/description.html">description</a></span>
+        <dt id="description" class="property">
+  <span class="name"><a href="../nanobot_dart/EditFileTool/description.html">description</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
   
 
 </dt>
-<dd class="inherited">
+<dd>
   Human-readable description.
-  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+  <div class="features"><span class="feature">no setter</span><span class="feature">override</span></div>
 
 </dd>
 
@@ -143,27 +136,27 @@
 
 </dd>
 
-        <dt id="name" class="property inherited">
-  <span class="name"><a href="../nanobot_dart/Tool/name.html">name</a></span>
+        <dt id="name" class="property">
+  <span class="name"><a href="../nanobot_dart/EditFileTool/name.html">name</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
   
 
 </dt>
-<dd class="inherited">
+<dd>
   Unique name for this tool.
-  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+  <div class="features"><span class="feature">no setter</span><span class="feature">override</span></div>
 
 </dd>
 
-        <dt id="parametersSchema" class="property inherited">
-  <span class="name"><a href="../nanobot_dart/Tool/parametersSchema.html">parametersSchema</a></span>
+        <dt id="parametersSchema" class="property">
+  <span class="name"><a href="../nanobot_dart/EditFileTool/parametersSchema.html">parametersSchema</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
   
 
 </dt>
-<dd class="inherited">
+<dd>
   JSON Schema for the tool's parameters.
-  <div class="features"><span class="feature">no setter</span><span class="feature">inherited</span></div>
+  <div class="features"><span class="feature">no setter</span><span class="feature">override</span></div>
 
 </dd>
 
@@ -179,15 +172,15 @@
 
 </dd>
 
-        <dt id="workspacePath" class="property">
+        <dt id="workspacePath" class="property inherited">
   <span class="name"><a href="../nanobot_dart/FilesystemTool/workspacePath.html">workspacePath</a></span>
   <span class="signature">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
   
 
 </dt>
-<dd>
+<dd class="inherited">
   
-  <div class="features"><span class="feature">final</span></div>
+  <div class="features"><span class="feature">final</span><span class="feature">inherited</span></div>
 
 </dd>
 
@@ -200,16 +193,16 @@
       id="instance-methods">
     <h2>Methods</h2>
     <dl class="callables">
-        <dt id="execute" class="callable inherited">
-  <span class="name"><a href="../nanobot_dart/Tool/execute.html">execute</a></span><span class="signature">(<wbr><span class="parameter" id="execute-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">params</span></span>)
+        <dt id="execute" class="callable">
+  <span class="name"><a href="../nanobot_dart/EditFileTool/execute.html">execute</a></span><span class="signature">(<wbr><span class="parameter" id="execute-param-params"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">params</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
   </span>
   
 
 </dt>
-<dd class="inherited">
+<dd>
   Execute the tool with the given parameters.
-  <div class="features"><span class="feature">inherited</span></div>
+  <div class="features"><span class="feature">override</span></div>
 
 </dd>
 
@@ -239,17 +232,17 @@
 
 </dd>
 
-        <dt id="validatePath" class="callable">
+        <dt id="validatePath" class="callable inherited">
   <span class="name"><a href="../nanobot_dart/FilesystemTool/validatePath.html">validatePath</a></span><span class="signature">(<wbr><span class="parameter" id="validatePath-param-path"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">path</span></span>)
     <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
   </span>
   
 
 </dt>
-<dd>
+<dd class="inherited">
   Validates that <code>path</code> is within <a href="../nanobot_dart/FilesystemTool/workspacePath.html">workspacePath</a>.
 Returns the absolute path if valid, otherwise throws <a href="https://api.flutter.dev/flutter/dart-io/FileSystemException-class.html">FileSystemException</a>.
-  
+  <div class="features"><span class="feature">inherited</span></div>
 
 </dd>
 
@@ -291,7 +284,7 @@ Returns the absolute path if valid, otherwise throws <a href="https://api.flutte
 <ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
     <li><a href="../index.html">nanobot_dart</a></li>
     <li><a href="../nanobot_dart/">nanobot_dart</a></li>
-    <li class="self-crumb">FilesystemTool class</li>
+    <li class="self-crumb">EditFileTool class</li>
 </ol>
 
     <h5>nanobot_dart library</h5>
