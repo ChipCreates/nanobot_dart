@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="nanobot_dart library API docs, for the Dart programming language.">
+  <title>nanobot_dart library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">nanobot_dart</a></li>
+    <li class="self-crumb">nanobot_dart.dart</li>
+  </ol>
+  <div class="self-name">nanobot_dart</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar=""
+    data-below-sidebar="nanobot_dart&#47;nanobot_dart-library-sidebar.html">
+  
+    <div>
+      
+
+      <h1>
+        <span class="kind-library">nanobot_dart</span>
+        library 
+ 
+
+      </h1>
+    </div>
+
+    
+<section class="desc markdown">
+  <p>Ultra-lightweight AI agent framework for Dart.</p>
+<p>NanoBot Dart provides a complete agent infrastructure including:</p>
+<ul>
+<li><a href="../nanobot_dart/AgentLoop-class.html">AgentLoop</a> - Core LLM ↔ tool execution cycle</li>
+<li><a href="../nanobot_dart/MemoryStore-class.html">MemoryStore</a> - Daily + long-term memory management</li>
+<li><a href="../nanobot_dart/SessionManager-class.html">SessionManager</a> - Conversation persistence</li>
+<li><a href="../nanobot_dart/SkillsRegistry-class.html">SkillsRegistry</a> - SKILL.md-compatible skill loading</li>
+<li><a href="../nanobot_dart/MessageBus-class.html">MessageBus</a> - Inbound/outbound message routing</li>
+</ul>
+<h2 id="quick-start">Quick Start</h2>
+<pre class="language-dart"><code class="language-dart">import 'package:nanobot_dart/nanobot_dart.dart';
+
+final agent = NanoAgent(
+  provider: OpenRouterProvider(apiKey: 'your-key'),
+  config: Config(
+    agents: AgentsConfig(
+      defaults: AgentDefaults(maxToolIterations: 20),
+    ),
+    providers: ProvidersConfig(
+      openrouter: ProviderConfig(apiKey: 'your-key'),
+    ),
+  ),
+);
+
+final response = await agent.process(
+  InboundMessage(content: 'Hello!', channel: 'app', chatId: 'main'),
+);
+</code></pre>
+</section>
+
+
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
+      <dl>
+          <dt id="AgentDefaults">
+  <span class="name "><a href="../nanobot_dart/AgentDefaults-class.html">AgentDefaults</a></span> 
+
+</dt>
+<dd>
+  Default agent configuration.
+</dd>
+
+          <dt id="AgentEvent">
+  <span class="name "><a href="../nanobot_dart/AgentEvent-class.html">AgentEvent</a></span> 
+
+</dt>
+<dd>
+  An event emitted during agent loop execution.
+</dd>
+
+          <dt id="AgentLoop">
+  <span class="name "><a href="../nanobot_dart/AgentLoop-class.html">AgentLoop</a></span> 
+
+</dt>
+<dd>
+  Core agent loop implementing the LLM ↔ tool execution cycle.
+</dd>
+
+          <dt id="AgentResponse">
+  <span class="name "><a href="../nanobot_dart/AgentResponse-class.html">AgentResponse</a></span> 
+
+</dt>
+<dd>
+  Response from the agent loop.
+</dd>
+
+          <dt id="AgentsConfig">
+  <span class="name "><a href="../nanobot_dart/AgentsConfig-class.html">AgentsConfig</a></span> 
+
+</dt>
+<dd>
+  Agent configuration.
+</dd>
+
+          <dt id="CancellationToken">
+  <span class="name "><a href="../nanobot_dart/CancellationToken-class.html">CancellationToken</a></span> 
+
+</dt>
+<dd>
+  Token for cancelling agent loop execution.
+</dd>
+
+          <dt id="ChannelsConfig">
+  <span class="name "><a href="../nanobot_dart/ChannelsConfig-class.html">ChannelsConfig</a></span> 
+
+</dt>
+<dd>
+  Configuration for chat channels.
+</dd>
+
+          <dt id="Config">
+  <span class="name "><a href="../nanobot_dart/Config-class.html">Config</a></span> 
+
+</dt>
+<dd>
+  Root configuration for nanobot.
+</dd>
+
+          <dt id="ContextBuilder">
+  <span class="name "><a href="../nanobot_dart/ContextBuilder-class.html">ContextBuilder</a></span> 
+
+</dt>
+<dd>
+  Builds context for LLM calls including system prompt, history, and memory.
+</dd>
+
+          <dt id="FilesystemTool">
+  <span class="name "><a href="../nanobot_dart/FilesystemTool-class.html">FilesystemTool</a></span> 
+
+</dt>
+<dd>
+  Base class for filesystem tools with sandboxing.
+</dd>
+
+          <dt id="GatewayConfig">
+  <span class="name "><a href="../nanobot_dart/GatewayConfig-class.html">GatewayConfig</a></span> 
+
+</dt>
+<dd>
+  Gateway/server configuration.
+</dd>
+
+          <dt id="InboundMessage">
+  <span class="name "><a href="../nanobot_dart/InboundMessage-class.html">InboundMessage</a></span> 
+
+</dt>
+<dd>
+  Inbound message from a channel.
+</dd>
+
+          <dt id="ListDirTool">
+  <span class="name "><a href="../nanobot_dart/ListDirTool-class.html">ListDirTool</a></span> 
+
+</dt>
+<dd>
+  Tool to list directory contents.
+</dd>
+
+          <dt id="LlmProvider">
+  <span class="name "><a href="../nanobot_dart/LlmProvider-class.html">LlmProvider</a></span> 
+
+</dt>
+<dd>
+  Abstract interface for LLM providers.
+</dd>
+
+          <dt id="LlmResponse">
+  <span class="name "><a href="../nanobot_dart/LlmResponse-class.html">LlmResponse</a></span> 
+
+</dt>
+<dd>
+  Response from an LLM provider.
+</dd>
+
+          <dt id="LocalLlmProvider">
+  <span class="name "><a href="../nanobot_dart/LocalLlmProvider-class.html">LocalLlmProvider</a></span> 
+
+</dt>
+<dd>
+  Local LLM provider using llama.cpp.
+</dd>
+
+          <dt id="MemoryStore">
+  <span class="name "><a href="../nanobot_dart/MemoryStore-class.html">MemoryStore</a></span> 
+
+</dt>
+<dd>
+  Memory store for daily notes and long-term memory.
+</dd>
+
+          <dt id="Message">
+  <span class="name "><a href="../nanobot_dart/Message-class.html">Message</a></span> 
+
+</dt>
+<dd>
+  A message in the conversation history.
+</dd>
+
+          <dt id="MessageBus">
+  <span class="name "><a href="../nanobot_dart/MessageBus-class.html">MessageBus</a></span> 
+
+</dt>
+<dd>
+  Message bus for routing inbound and outbound messages.
+</dd>
+
+          <dt id="MessageEvent">
+  <span class="name "><a href="../nanobot_dart/MessageEvent-class.html">MessageEvent</a></span> 
+
+</dt>
+<dd>
+  A message bus event.
+</dd>
+
+          <dt id="MessageTool">
+  <span class="name "><a href="../nanobot_dart/MessageTool-class.html">MessageTool</a></span> 
+
+</dt>
+<dd>
+  Tool for sending a message (final answer or communication).
+</dd>
+
+          <dt id="NanoAgent">
+  <span class="name "><a href="../nanobot_dart/NanoAgent-class.html">NanoAgent</a></span> 
+
+</dt>
+<dd>
+  High-level agent facade.
+</dd>
+
+          <dt id="NanoSkill">
+  <span class="name "><a href="../nanobot_dart/NanoSkill-class.html">NanoSkill</a></span> 
+
+</dt>
+<dd>
+  Abstract base class for programmatic skills.
+</dd>
+
+          <dt id="NarrativeBuilder">
+  <span class="name "><a href="../nanobot_dart/NarrativeBuilder-class.html">NarrativeBuilder</a></span> 
+
+</dt>
+<dd>
+  Builds human-readable narrative summaries from memory data.
+</dd>
+
+          <dt id="OpenRouterProvider">
+  <span class="name "><a href="../nanobot_dart/OpenRouterProvider-class.html">OpenRouterProvider</a></span> 
+
+</dt>
+<dd>
+  OpenRouter LLM provider for cloud-based inference.
+</dd>
+
+          <dt id="OutboundMessage">
+  <span class="name "><a href="../nanobot_dart/OutboundMessage-class.html">OutboundMessage</a></span> 
+
+</dt>
+<dd>
+  Outbound message to a channel.
+</dd>
+
+          <dt id="ProviderConfig">
+  <span class="name "><a href="../nanobot_dart/ProviderConfig-class.html">ProviderConfig</a></span> 
+
+</dt>
+<dd>
+  LLM provider configuration.
+</dd>
+
+          <dt id="ProvidersConfig">
+  <span class="name "><a href="../nanobot_dart/ProvidersConfig-class.html">ProvidersConfig</a></span> 
+
+</dt>
+<dd>
+  Configuration for LLM providers.
+</dd>
+
+          <dt id="ReadFileTool">
+  <span class="name "><a href="../nanobot_dart/ReadFileTool-class.html">ReadFileTool</a></span> 
+
+</dt>
+<dd>
+  Tool to read a file from the filesystem.
+</dd>
+
+          <dt id="Session">
+  <span class="name "><a href="../nanobot_dart/Session-class.html">Session</a></span> 
+
+</dt>
+<dd>
+  A conversation session.
+</dd>
+
+          <dt id="SessionManager">
+  <span class="name "><a href="../nanobot_dart/SessionManager-class.html">SessionManager</a></span> 
+
+</dt>
+<dd>
+  Manager for conversation sessions with JSONL persistence.
+</dd>
+
+          <dt id="SessionMessage">
+  <span class="name "><a href="../nanobot_dart/SessionMessage-class.html">SessionMessage</a></span> 
+
+</dt>
+<dd>
+  A message in a session.
+</dd>
+
+          <dt id="Skill">
+  <span class="name "><a href="../nanobot_dart/Skill-class.html">Skill</a></span> 
+
+</dt>
+<dd>
+  A skill loaded from a SKILL.md file.
+</dd>
+
+          <dt id="SkillsRegistry">
+  <span class="name "><a href="../nanobot_dart/SkillsRegistry-class.html">SkillsRegistry</a></span> 
+
+</dt>
+<dd>
+  Registry for loading and managing skills.
+</dd>
+
+          <dt id="SubagentManager">
+  <span class="name "><a href="../nanobot_dart/SubagentManager-class.html">SubagentManager</a></span> 
+
+</dt>
+<dd>
+  Manager for spawning background subagents.
+</dd>
+
+          <dt id="SubagentStatus">
+  <span class="name "><a href="../nanobot_dart/SubagentStatus-class.html">SubagentStatus</a></span> 
+
+</dt>
+<dd>
+  Status of a subagent task.
+</dd>
+
+          <dt id="TelegramConfig">
+  <span class="name "><a href="../nanobot_dart/TelegramConfig-class.html">TelegramConfig</a></span> 
+
+</dt>
+<dd>
+  Telegram channel configuration.
+</dd>
+
+          <dt id="Tool">
+  <span class="name "><a href="../nanobot_dart/Tool-class.html">Tool</a></span> 
+
+</dt>
+<dd>
+  A tool that can be called by the LLM.
+</dd>
+
+          <dt id="ToolCall">
+  <span class="name "><a href="../nanobot_dart/ToolCall-class.html">ToolCall</a></span> 
+
+</dt>
+<dd>
+  A tool call from the LLM.
+</dd>
+
+          <dt id="ToolDefinition">
+  <span class="name "><a href="../nanobot_dart/ToolDefinition-class.html">ToolDefinition</a></span> 
+
+</dt>
+<dd>
+  Definition of a tool for LLM function calling.
+</dd>
+
+          <dt id="ToolRegistry">
+  <span class="name "><a href="../nanobot_dart/ToolRegistry-class.html">ToolRegistry</a></span> 
+
+</dt>
+<dd>
+  Registry for tools that can be called by the LLM.
+</dd>
+
+          <dt id="ToolResult">
+  <span class="name "><a href="../nanobot_dart/ToolResult-class.html">ToolResult</a></span> 
+
+</dt>
+<dd>
+  Result of a tool execution.
+</dd>
+
+          <dt id="ToolsConfig">
+  <span class="name "><a href="../nanobot_dart/ToolsConfig-class.html">ToolsConfig</a></span> 
+
+</dt>
+<dd>
+  Tools configuration.
+</dd>
+
+          <dt id="WebFetchTool">
+  <span class="name "><a href="../nanobot_dart/WebFetchTool-class.html">WebFetchTool</a></span> 
+
+</dt>
+<dd>
+  Tool for fetching web page content.
+</dd>
+
+          <dt id="WebSearchConfig">
+  <span class="name "><a href="../nanobot_dart/WebSearchConfig-class.html">WebSearchConfig</a></span> 
+
+</dt>
+<dd>
+  Web search tool configuration.
+</dd>
+
+          <dt id="WebSearchTool">
+  <span class="name "><a href="../nanobot_dart/WebSearchTool-class.html">WebSearchTool</a></span> 
+
+</dt>
+<dd>
+  Tool for searching the web.
+</dd>
+
+          <dt id="WebToolsConfig">
+  <span class="name "><a href="../nanobot_dart/WebToolsConfig-class.html">WebToolsConfig</a></span> 
+
+</dt>
+<dd>
+  Web tools configuration.
+</dd>
+
+          <dt id="WhatsAppConfig">
+  <span class="name "><a href="../nanobot_dart/WhatsAppConfig-class.html">WhatsAppConfig</a></span> 
+
+</dt>
+<dd>
+  WhatsApp channel configuration.
+</dd>
+
+          <dt id="WriteFileTool">
+  <span class="name "><a href="../nanobot_dart/WriteFileTool-class.html">WriteFileTool</a></span> 
+
+</dt>
+<dd>
+  Tool to write content to a file.
+</dd>
+
+      </dl>
+    </section>
+
+    <section class="summary offset-anchor" id="enums">
+      <h2>Enums</h2>
+      <dl>
+          <dt id="AgentEventType">
+  <span class="name "><a href="../nanobot_dart/AgentEventType.html">AgentEventType</a></span> 
+
+</dt>
+<dd>
+  Events emitted during agent loop execution.
+</dd>
+
+          <dt id="MessageEventType">
+  <span class="name "><a href="../nanobot_dart/MessageEventType.html">MessageEventType</a></span> 
+
+</dt>
+<dd>
+  Event types for the message bus.
+</dd>
+
+          <dt id="MessageRole">
+  <span class="name "><a href="../nanobot_dart/MessageRole.html">MessageRole</a></span> 
+
+</dt>
+<dd>
+  Role of a message in the conversation.
+</dd>
+
+      </dl>
+    </section>
+
+
+
+
+
+
+    <section class="summary offset-anchor" id="functions">
+      <h2>Functions</h2>
+      <dl class="callables">
+          <dt id="getConfigPath" class="callable">
+  <span class="name"><a href="../nanobot_dart/getConfigPath.html">getConfigPath</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Get the default configuration file path.
+  
+
+</dd>
+
+          <dt id="loadConfig" class="callable">
+  <span class="name"><a href="../nanobot_dart/loadConfig.html">loadConfig</a></span><span class="signature">(<wbr>{<span class="parameter" id="loadConfig-param-path"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">path</span>, </span><span class="parameter" id="loadConfig-param-environment"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span>?</span> <span class="parameter-name">environment</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../nanobot_dart/Config-class.html">Config</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Load configuration from file or create default.
+  
+
+</dd>
+
+          <dt id="saveConfig" class="callable">
+  <span class="name"><a href="../nanobot_dart/saveConfig.html">saveConfig</a></span><span class="signature">(<wbr><span class="parameter" id="saveConfig-param-config"><span class="type-annotation"><a href="../nanobot_dart/Config-class.html">Config</a></span> <span class="parameter-name">config</span>, {</span><span class="parameter" id="saveConfig-param-path"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a>?</span> <span class="parameter-name">path</span></span>})
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Save configuration to file.
+  
+
+</dd>
+
+      </dl>
+    </section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../index.html">nanobot_dart</a></li>
+    <li class="self-crumb">nanobot_dart.dart</li>
+</ol>
+
+    <h5><span class="package-name">nanobot_dart</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="../nanobot_dart/">nanobot_dart</a></li>
+      <li><a href="../tools_filesystem/">tools/filesystem</a></li>
+      <li><a href="../tools_message/">tools/message</a></li>
+      <li><a href="../tools_shell/">tools/shell</a></li>
+      <li><a href="../tools_web/">tools/web</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <h5>nanobot_dart library</h5>
+  </div><!--/sidebar-offcanvas-right-->
+</main>
+<footer>
+  <span class="no-break">
+    nanobot_dart
+      0.1.0
+  </span>
+  
+</footer>
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

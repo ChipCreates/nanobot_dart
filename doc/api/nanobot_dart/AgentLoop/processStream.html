@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the processStream method from the AgentLoop class, for the Dart programming language.">
+  <title>processStream method - AgentLoop class - nanobot_dart library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="../../" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">nanobot_dart</a></li>
+    <li><a href="../../nanobot_dart/">nanobot_dart.dart</a></li>
+    <li><a href="../../nanobot_dart/AgentLoop-class.html">AgentLoop</a></li>
+    <li class="self-crumb">processStream method</li>
+  </ol>
+  <div class="self-name">processStream</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+<div
+    id="dartdoc-main-content"
+    class="main-content"
+    data-above-sidebar="nanobot_dart&#47;AgentLoop-class-sidebar.html"
+    data-below-sidebar="">
+    <div>
+<h1><span class="kind-method">processStream</span> method 
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-core/Stream-class.html">Stream</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="../../nanobot_dart/AgentEvent-class.html">AgentEvent</a></span>&gt;</span></span>
+<span class="name ">processStream</span>(<wbr><ol class="parameter-list"> <li><span class="parameter" id="processStream-param-message"><span class="type-annotation"><a href="../../nanobot_dart/InboundMessage-class.html">InboundMessage</a></span> <span class="parameter-name">message</span>, {</span></li>
+<li><span class="parameter" id="processStream-param-cancellationToken"><span class="type-annotation"><a href="../../nanobot_dart/CancellationToken-class.html">CancellationToken</a>?</span> <span class="parameter-name">cancellationToken</span>, </span></li>
+</ol>})
+
+      
+
+    </section>
+    
+<section class="desc markdown">
+  <p>Process a message with streaming events.</p>
+<p>Yields <a href="../../nanobot_dart/AgentEvent-class.html">AgentEvent</a>s as the loop progresses, enabling real-time UI updates.</p>
+<p>Example:</p>
+<pre class="language-dart"><code class="language-dart">await for (final event in loop.processStream(message)) {
+  if (event.type == AgentEventType.toolExecution) {
+    print('Executing ${event.toolName}...');
+  }
+}
+</code></pre>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Stream&lt;AgentEvent&gt; processStream(
+  InboundMessage message, {
+  CancellationToken? cancellationToken,
+}) async* {
+  var iteration = 0;
+  var messages = context.buildMessages(message);
+
+  while (iteration &lt; maxIterations) {
+    &#47;&#47; Check for cancellation
+    if (cancellationToken?.isCancelled ?? false) {
+      yield AgentEvent(
+        type: AgentEventType.loopComplete,
+        iteration: iteration,
+        content: &#39;Operation cancelled.&#39;,
+        timestamp: DateTime.now(),
+      );
+      return;
+    }
+
+    iteration++;
+    yield AgentEvent(
+      type: AgentEventType.iterationStart,
+      iteration: iteration,
+      timestamp: DateTime.now(),
+    );
+
+    &#47;&#47; Call LLM
+    final response = await provider.chat(
+      messages: messages,
+      tools: tools.definitions,
+    );
+
+    yield AgentEvent(
+      type: AgentEventType.llmResponse,
+      iteration: iteration,
+      content: response.content,
+      timestamp: DateTime.now(),
+    );
+
+    if (response.hasToolCalls) {
+      &#47;&#47; Add assistant message with tool calls
+      messages = context.addAssistantMessage(messages, response);
+
+      &#47;&#47; Execute each tool and add results
+      for (final toolCall in response.toolCalls!) {
+        yield AgentEvent(
+          type: AgentEventType.toolExecution,
+          iteration: iteration,
+          toolName: toolCall.name,
+          timestamp: DateTime.now(),
+        );
+
+        final result = await tools.execute(toolCall);
+        messages = context.addToolResult(messages, toolCall.id, result);
+      }
+
+      yield AgentEvent(
+        type: AgentEventType.iterationComplete,
+        iteration: iteration,
+        timestamp: DateTime.now(),
+      );
+    } else {
+      &#47;&#47; No tool calls - return final response
+      yield AgentEvent(
+        type: AgentEventType.loopComplete,
+        iteration: iteration,
+        content: response.content ?? &#39;&#39;,
+        timestamp: DateTime.now(),
+      );
+      return;
+    }
+  }
+
+  &#47;&#47; Max iterations reached
+  yield AgentEvent(
+    type: AgentEventType.loopComplete,
+    iteration: iteration,
+    content: &#39;Max iterations ($maxIterations) reached.&#39;,
+    timestamp: DateTime.now(),
+  );
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="../../index.html">nanobot_dart</a></li>
+    <li><a href="../../nanobot_dart/">nanobot_dart</a></li>
+    <li><a href="../../nanobot_dart/AgentLoop-class.html">AgentLoop</a></li>
+    <li class="self-crumb">processStream method</li>
+</ol>
+
+    <h5>AgentLoop class</h5>
+    <div id="dartdoc-sidebar-left-content"></div>
+  </div><!--/.sidebar-offcanvas-->
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+</div><!--/.sidebar-offcanvas-->
+</main>
+<footer>
+  <span class="no-break">
+    nanobot_dart
+      0.1.0
+  </span>
+  
+</footer>
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+

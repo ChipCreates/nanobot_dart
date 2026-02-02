@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="nanobot_dart API docs, for the Dart programming language.">
+  <title>nanobot_dart - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+  
+</head>
+
+<body data-base-href="" data-using-base-href="false" class="light-theme">
+<div id="overlay-under-drawer"></div>
+<header id="title">
+  <span id="sidenav-left-toggle" class="material-symbols-outlined" role="button" tabindex="0">menu</span>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://github.com/ChipCreates/aorani">nanobot_dart package</a></li>
+  </ol>
+  <div class="self-name">nanobot_dart</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+  <button class="toggle" id="theme-button" title="Toggle between light and dark mode" aria-label="Light and dark mode toggle">
+    <span id="dark-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      dark_mode
+    </span>
+    <span id="light-theme-button" class="material-symbols-outlined" aria-hidden="true">
+      light_mode
+    </span>
+  </button>
+</header>
+<main>
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="nanobot-dart">NanoBot Dart</h1>
+<p><a href="https://github.com/vllm-project/nanobot/actions/workflows/dart.yml"><img src="https://github.com/vllm-project/nanobot/actions/workflows/dart.yml/badge.svg" alt="Dart"></a></p>
+<p>A standalone Dart port of <a href="https://github.com/vllm-project/nanobot">NanoBot</a>, an ultra-lightweight AI agent framework.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>🧠 <strong>Universal Agent</strong>: Works with any LLM (Anthropic, OpenAI, OpenRouter, Local).</li>
+<li>🛠️ <strong>Tool System</strong>: Type-safe tool definitions and execution.</li>
+<li>💾 <strong>Memory</strong>: Markdown-based daily notes and long-term memory.</li>
+<li>🔄 <strong>Sessions</strong>: Persistent conversation history (JSONL).</li>
+<li>🔌 <strong>Skills</strong>: Drop-in skill modules (<code>SKILL.md</code>).</li>
+<li>📱 <strong>Cross-Platform</strong>: Designed for Flutter (Mobile/Desktop/Web) and Dart CLI.</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>Add to your <code>pubspec.yaml</code>:</p>
+<pre class="language-yaml"><code class="language-yaml">dependencies:
+  nanobot_dart:
+    path: packages/nanobot_dart
+</code></pre>
+<h2 id="quick-start">Quick Start</h2>
+<pre class="language-dart"><code class="language-dart">import 'package:nanobot_dart/nanobot_dart.dart';
+
+void main() async {
+  // 1. Configure
+  final config = Config(
+    agents: AgentsConfig(
+      defaults: AgentDefaults(
+        model: 'anthropic/claude-3.5-sonnet',
+        workspace: '~/.nanobot',
+      ),
+    ),
+    providers: ProvidersConfig(
+      anthropic: ProviderConfig(apiKey: 'your-api-key'),
+    ),
+  );
+
+  // 2. Initialize Agent
+  final agent = NanoAgent(
+    config: config,
+    provider: AnthropicProvider(apiKey: config.apiKey!),
+  );
+
+  // 3. Process Message
+  final response = await agent.process(InboundMessage(
+    content: 'Hello, world!',
+    channel: 'cli',
+    chatId: 'general',
+  ));
+
+  print(response.content);
+}
+</code></pre>
+<h2 id="architecture">Architecture</h2>
+<p><code>nanobot_dart</code> follows the Python reference architecture:</p>
+<pre class="language-dart"><code>lib/
+├── src/
+│   ├── agent/          # AgentLoop, NanoAgent, Tools
+│   ├── config/         # Configuration loading
+│   ├── bus/            # Message bus &amp; events
+│   ├── providers/      # LLM provider implementations
+│   ├── session/        # Session management
+│   └── skills/         # Skill loading &amp; registry
+├── nanobot_dart.dart   # Main exports
+</code></pre>
+<h2 id="license">License</h2>
+<p>MIT License.</p>
+<p>Based on <a href="https://github.com/vllm-project/nanobot">NanoBot</a> by the vLLM project.</p>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="nanobot_dart">
+  <span class="name"><a href="nanobot_dart/">nanobot_dart</a></span> 
+
+</dt>
+<dd>Ultra-lightweight AI agent framework for Dart.
+</dd>
+
+          <dt id="filesystem">
+  <span class="name"><a href="tools_filesystem/">tools/filesystem</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="message">
+  <span class="name"><a href="tools_message/">tools/message</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="shell">
+  <span class="name"><a href="tools_shell/">tools/shell</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+          <dt id="web">
+  <span class="name"><a href="tools_web/">tools/web</a></span> 
+
+</dt>
+<dd>
+</dd>
+
+        </dl>
+      </section>
+  </div> <!-- /.main-content -->
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <!-- The search input and breadcrumbs below are only responsively visible at low resolutions. -->
+<header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+    <li><a href="https://github.com/ChipCreates/aorani">nanobot_dart package</a></li>
+</ol>
+
+    <h5 class="hidden-xs"><span class="package-name">nanobot_dart</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="nanobot_dart/">nanobot_dart</a></li>
+      <li><a href="tools_filesystem/">tools/filesystem</a></li>
+      <li><a href="tools_message/">tools/message</a></li>
+      <li><a href="tools_shell/">tools/shell</a></li>
+      <li><a href="tools_web/">tools/web</a></li>
+</ol>
+
+  </div>
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+</main>
+<footer>
+  <span class="no-break">
+    nanobot_dart
+      0.1.0
+  </span>
+  
+</footer>
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/docs.dart.js"></script>
+
+</body>
+</html>
+
