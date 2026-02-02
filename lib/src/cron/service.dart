@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:cron_parser/cron_parser.dart';
+import 'package:nanobot_dart/src/cron/cron_parser.dart';
 import 'package:nanobot_dart/src/cron/types.dart';
 
 /// Callback to execute a cron job.
