@@ -14,6 +14,7 @@ dependencies:
   args: ^2.7.0
   collection: ^1.18.0
   cron: ^0.6.2
+  cron_parser: ^0.5.0
   freezed_annotation: ^2.4.1
   http: ^1.2.0
   json_annotation: ^4.9.0

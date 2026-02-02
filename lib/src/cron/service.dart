@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
 
+import 'package:cron_parser/cron_parser.dart';
 import 'package:nanobot_dart/src/cron/types.dart';
-// ignore: implementation_imports
 
 /// Callback to execute a cron job.
 typedef CronJobCallback = Future<String?> Function(CronJob job);
@@ -180,26 +180,10 @@ class CronService {
 
     if (schedule.kind == 'cron' && schedule.expr != null) {
       try {
-        // The 'cron' package doesn't expose a simple "next run" calculator
-        // without scheduling. We might need to implement a parser or use
-        // a different approach if we want exact compatibility with python's croniter.
-        // For now, let's use a simplified approximation or just support 'at'/'every'
-        // fully, and basic cron if possible.
-        // ACTUALLY: The `cron` package is a scheduler, not a parser.
-        // We need a parser to "compute next run".
-        // Since we are porting a "Pull" architecture (Service loops and checks),
-        // we need to know WHEN the next run is.
-        //
-        // If we can't easily compute next run from cron string in Dart without
-        // a heavy library, we might need to rely on the Scheduler to trigger us.
-        // But the Python code computes it manually to sleep until then.
-        //
-        // For faithful porting, I'll mock this for 'cron' type properly later
-        // or find a package that does parsing.
-        // 'cron_parser' is a package that might help.
-        // For now, I will leave CRON kind as NULL/Unimplemented in calculation
-        // to avoid breakage, or use a basic placeholder.
-        return null;
+        // Use cron_parser to compute next run time from cron expression
+        final cron = Cron().parse(schedule.expr!, 'UTC');
+        final nextRun = cron.next();
+        return nextRun.millisecondsSinceEpoch;
       } catch (_) {
         return null;
       }
