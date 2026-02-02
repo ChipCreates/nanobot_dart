@@ -52,6 +52,7 @@ export 'src/bus/events.dart';
 export 'src/bus/message_bus.dart';
 export 'src/config/config.dart';
 export 'src/config/loader.dart';
+export 'src/providers/anthropic_provider.dart';
 export 'src/providers/llm_provider.dart';
 export 'src/providers/local_provider.dart';
 export 'src/providers/openrouter_provider.dart';
